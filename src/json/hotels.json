@@ -1,0 +1,14 @@
+[
+    {
+      "id": 1,
+      "name": "Taj Hotel",
+      "location": "Mumbai",
+      "price": 5000
+    },
+    {
+      "id": 2,
+      "name": "Oberoi Hotel",
+      "location": "Delhi",
+      "price": 7000
+    }
+  ]
