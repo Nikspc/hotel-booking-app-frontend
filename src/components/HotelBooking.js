@@ -1,32 +1,30 @@
-import React, { useState, useEffect } from 'react';
-import { fetchHotels, bookHotel } from '../services/api';
+import React, { useState } from 'react';
+import { bookHotel } from '../services/api';
 
 function HotelBooking() {
-  const [hotels, setHotels] = useState([]);
-  const [selectedHotel, setSelectedHotel] = useState(null);
-
-  useEffect(() => {
-    async function fetchData() {
-      const { data } = await fetchHotels();
-      setHotels(data);
-    }
-    fetchData();
-  }, []);
+  const [hotelName, setHotelName] = useState('');
+  const [checkInDate, setCheckInDate] = useState('');
+  const [checkOutDate, setCheckOutDate] = useState('');
+  const [family, setFamily] = useState([{ name: '', aadhaar: '' }]);
+  const hotels = ['Taj Hotel', 'Leela Palace', 'ITC Grand'];
 
   const handleBooking = async () => {
-    await bookHotel({ hotelName: selectedHotel });
+    const token = localStorage.getItem('token');
+    await bookHotel({ hotelName, checkInDate, checkOutDate, family }, token);
     alert('Hotel Booked Successfully');
   };
 
   return (
-    <div className="p-5">
-      <h2>Select Hotel</h2>
-      <select onChange={(e) => setSelectedHotel(e.target.value)}>
-        {hotels.map((hotel) => (
-          <option key={hotel.id} value={hotel.name}>{hotel.name} - {hotel.location}</option>
+    <div>
+      <select onChange={(e) => setHotelName(e.target.value)}>
+        <option>Select Hotel</option>
+        {hotels.map((hotel, index) => (
+          <option key={index} value={hotel}>{hotel}</option>
         ))}
       </select>
-      <button className="bg-blue-500 text-white p-2 mt-3" onClick={handleBooking}>Book Hotel</button>
+      <input type="date" onChange={(e) => setCheckInDate(e.target.value)} />
+      <input type="date" onChange={(e) => setCheckOutDate(e.target.value)} />
+      <button onClick={handleBooking}>Book Hotel</button>
     </div>
   );
 }
